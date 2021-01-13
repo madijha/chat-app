@@ -1,0 +1,16 @@
+.header{
+    background-color: #fe4a49;
+    font-family: 'Lobster Two', cursive;
+}
+#navbar{
+    background-color: #000;
+}
+.nav-link{
+    color: #fff;
+    font-size: larger;
+    margin: 5px;
+}
+.nav-link:hover{
+    color: #fff;
+    background-color: #fe4a49;
+}
