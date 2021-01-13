@@ -1,0 +1,50 @@
+#registermain{
+    background-image: url(../images/registerbackground.jpg);
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.wrapper {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#loginform{
+    background-color: #fff;
+    width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+}
+label{
+    color: #000;
+    font-size: 20px;
+}
+.registerlink{
+    display: block;
+    color: #000;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+}
+.registerlink:hover{
+    text-decoration: underline;
+    color: #000;
+}
+.btn-block{
+    background-color: #fe4a49;
+    border: 2px solid #fe4a49;
+}
+.btn-block:hover{
+    background-color: #fe4a49;
+    border: 2px solid #fe4a49;
+}
+footer{
+    background-color: #4a4e4d;
+    height: 71px;
+}
+footer>p{
+    text-align: center;
+    color: #fff;
+}
