@@ -18,7 +18,7 @@ export default class login extends Component {
                                 <label for="email">Email address:</label>
                                 <input type="email" className="form-control" placeholder="Enter email" id="email" required/>
                             </div>
-                            <button onClick={() => console.log('form submitted')} type="submit" className="btn btn-primary btn-block">Login</button> 
+                            <button onClick={() => console.log('form submitted')} type="submit" className="btn btn-block">Login</button> 
                             <NavLink className="registerlink" to="/register">Not yet registered? Register now</NavLink>
                         </div>
                     </div>

@@ -8,10 +8,10 @@ export default class Navbar extends Component {
         <div>
             <ul id="navbar" className="nav">
                 <li className="nav-item">
-                    <NavLink className="nav-link header" to="/" onClick={() => console.log('homepage')}>dI</NavLink>
+                    <NavLink className="nav-link header" to="/home" onClick={() => console.log('homepage')}>dI</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" to="/" onClick={() => console.log('homepage')}>Home</NavLink>
+                    <NavLink className="nav-link" to="/home" onClick={() => console.log('homepage')}>Home</NavLink>
                 </li>
                 <li className="nav-item">
                     <NavLink className="nav-link" to="/about">About us</NavLink>
