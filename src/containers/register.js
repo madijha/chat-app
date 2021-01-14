@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Navbar from '../includes/navbar';
 import {NavLink} from 'react-router-dom';
+import { registerHandler } from '../components/register';
 import '../css/register.css';
-import { throwStatement } from '@babel/types';
+var Spinner = require('react-spinkit');
 
 export default class login extends Component {
     constructor(props) {
@@ -10,6 +11,8 @@ export default class login extends Component {
         this.state = {
             username: '',
             email: '',
+            showLoader: false,
+            buttonDisable: false,
         }
     }
     componentDidMount() {
@@ -28,21 +31,29 @@ export default class login extends Component {
                                 <label for="email">Email address:</label>
                                 <input type="email" className="form-control" placeholder="Enter email" id="email" onChange={(event) => this.setState({email: event.target.value})} required />
                             </div>
-                            <button 
+                            <button
+                                disabled={this.state.buttonDisable}
                                 onClick={() => {
-                                    if(this.state.username === '') {
-                                        alert('Username cannot be empty');
-                                    } else if(this.state.email === '') {
-                                        alert('email cannot be empty');
-                                    } else {
-                                        console.log(this.state.username, this.state.email);
-                                    }
+                                    this.setState({showLoader: true, buttonDisable: true}, () => {
+                                        if(this.state.username === '') {
+                                            alert('Username cannot be empty');
+                                        } else if(this.state.email === '') {
+                                            alert('Email cannot be empty');
+                                        } else {
+                                            registerHandler().then((data) => {
+                                                alert(data);
+                                            });
+                                        }
+                                    })
                                 }} 
                                 type="submit" 
                                 className="btn btn-block"
                             >
-                                Login
-                            </button> 
+                                {this.state.showLoader ?
+                                    <div>
+                                        <Spinner name="three-bounce" color="#fff " />
+                                    </div> : 'Login'}
+                            </button>
                             <NavLink className="registerlink" to="/login">Already registered? Login</NavLink>
                         </div>
                     </div>

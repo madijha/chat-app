@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from '../includes/navbar';
 import {NavLink} from 'react-router-dom';
+import {signInWithGoogle} from '../components/login';
 import '../css/login.css';
 
 export default class login extends Component {
@@ -18,7 +19,18 @@ export default class login extends Component {
                                 <label for="email">Email address:</label>
                                 <input type="email" className="form-control" placeholder="Enter email" id="email" required/>
                             </div>
-                            <button onClick={() => console.log('form submitted')} type="submit" className="btn btn-block">Login</button> 
+                            <button onClick={() => console.log('form submitted')} type="submit" className="btn btn-block">Login</button>
+                            <button onClick={() => {
+                                signInWithGoogle().then((data) => {
+                                    console.log(data.additionalUserInfo)
+                                });
+                            }} 
+                            type="submit" 
+                            className="btn btn-block" 
+                            style={{backgroundColor: '#fff', color: '#fe4a49'}}
+                            >
+                                Login with google
+                            </button>  
                             <NavLink className="registerlink" to="/register">Not yet registered? Register now</NavLink>
                         </div>
                     </div>
