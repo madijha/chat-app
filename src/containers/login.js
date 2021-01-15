@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import Navbar from '../includes/navbar';
-import {NavLink} from 'react-router-dom';
-import {signInWithGoogle} from '../components/login';
+import {NavLink, Redirect} from 'react-router-dom';
+import {signInWithGoogle, loginHandler} from '../components/login';
 import '../css/login.css';
 
 export default class login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            redirect: false,
+            userDetails: {},
+        };
+    }
     componentDidMount() {
         document.body.style.backgroundColor = "#f4f4f8";
     }
@@ -17,21 +25,48 @@ export default class login extends Component {
                         <div id="loginform">
                             <div class="form-group">
                                 <label for="email">Email address:</label>
-                                <input type="email" className="form-control" placeholder="Enter email" id="email" required/>
+                                <input type="email" className="form-control" placeholder="Enter email" id="email" onChange={(event) => this.setState({email: event.target.value})} required/>
                             </div>
-                            <button onClick={() => console.log('form submitted')} type="submit" className="btn btn-block">Login</button>
-                            <button onClick={() => {
-                                signInWithGoogle().then((data) => {
-                                    console.log(data.additionalUserInfo)
-                                });
-                            }} 
-                            type="submit" 
-                            className="btn btn-block" 
-                            style={{backgroundColor: '#fff', color: '#fe4a49'}}
+                            <button 
+                                onClick={() => 
+                                    loginHandler(this.state.email)
+                                    .then((loginData) => {
+                                        if(loginData.data === 'notRegistered') {
+                                            alert("Email not registered. Please register now to continue");
+                                        } else if(loginData.data === 'extra') {
+                                            alert("This email is registered more than once. Please contact admin to continue");
+                                        } else {
+                                            this.setState({userDetails:loginData, redirect: true});
+                                        }
+                                    })} 
+                                type="submit" 
+                                className="btn btn-block"
+                            >
+                                Login
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    signInWithGoogle().then((data) => {
+                                        loginHandler(data.additionalUserInfo.profile.email)
+                                        .then((loginData) => {
+                                            if(loginData.data === 'notRegistered') {
+                                                alert("Email not registered. Please register now to continue");
+                                            } else if(loginData.data === 'extra') {
+                                                alert("This email is registered more than once. Please contact admin to continue");
+                                            } else {
+                                                this.setState({userDetails:loginData, redirect: true});
+                                            }
+                                        });
+                                    });
+                                }} 
+                                type="submit" 
+                                className="btn btn-block" 
+                                style={{backgroundColor: '#fff', color: '#fe4a49'}}
                             >
                                 Login with google
                             </button>  
                             <NavLink className="registerlink" to="/register">Not yet registered? Register now</NavLink>
+                            {this.state.redirect ? <Redirect to="/main" /> : null}
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 var Spinner = require('react-spinkit');
 
 export default class splash extends Component {
@@ -11,6 +12,7 @@ export default class splash extends Component {
     }
     componentDidMount(){
         this.id = setTimeout(() => this.setState({redirect: true}), 8000);
+        console.log(uuidv4());
     }
     componentWillUnmount() {
         clearTimeout(this.id);  

@@ -5,6 +5,7 @@ import home from "./containers/home";
 import about from "./containers/about";
 import login from "./containers/login";
 import register from "./containers/register";
+import main from "./containers/main";
 
 export default class App extends Component {
   render() {
@@ -16,6 +17,7 @@ export default class App extends Component {
           <Route path="/about" exact component={about} />
           <Route path="/login" exact component={login} />
           <Route path="/register" exact component={register} />
+          <Route path="/main" exact component={main} />
         </div>
       </BrowserRouter>
     )
