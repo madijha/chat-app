@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../includes/navbar';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import { registerHandler } from '../components/register';
 import '../css/register.css';
 var Spinner = require('react-spinkit');
@@ -11,6 +11,7 @@ export default class login extends Component {
         this.state = {
             username: '',
             email: '',
+            redirect: false,
             showLoader: false,
             buttonDisable: false,
         }
@@ -40,8 +41,14 @@ export default class login extends Component {
                                         } else if(this.state.email === '') {
                                             alert('Email cannot be empty');
                                         } else {
-                                            registerHandler().then((data) => {
-                                                alert(data);
+                                            registerHandler(this.state.email, this.state.username)
+                                            .then((data) => {
+                                                if(data.data.message === 'exists') {
+                                                    alert('email already exist. please login to continue');
+                                                } else if(data.data.message === 'registered') {
+                                                    alert('user registered successfully');
+                                                }
+                                                this.setState({showLoader: false, buttonDisable: false, redirect: true});
                                             });
                                         }
                                     })
@@ -50,11 +57,12 @@ export default class login extends Component {
                                 className="btn btn-block"
                             >
                                 {this.state.showLoader ?
-                                    <div>
+                                    (<div>
                                         <Spinner name="three-bounce" color="#fff " />
-                                    </div> : 'Login'}
+                                    </div>) : 'Sign up'}
                             </button>
                             <NavLink className="registerlink" to="/login">Already registered? Login</NavLink>
+                            {this.state.redirect ? <Redirect to="/login" /> : null}
                         </div>
                     </div>
                 </div>
