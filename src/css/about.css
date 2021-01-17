@@ -1,0 +1,16 @@
+.about{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-image: url(../images/about-us-background.jpg); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-content: center;
+}
+.about p{
+    color: #fff;
+    margin-inline: 200px;
+    font-size: xx-large;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

@@ -36,7 +36,8 @@ export default class login extends Component {
                                         } else if(loginData.data === 'extra') {
                                             alert("This email is registered more than once. Please contact admin to continue");
                                         } else {
-                                            this.setState({userDetails:loginData, redirect: true});
+                                            localStorage.setItem('myDiId', loginData.data.user_id);
+                                            this.setState({userDetails: loginData.data}, () => this.props.history.push('/main', loginData.data));
                                         }
                                     })} 
                                 type="submit" 
@@ -54,7 +55,7 @@ export default class login extends Component {
                                             } else if(loginData.data === 'extra') {
                                                 alert("This email is registered more than once. Please contact admin to continue");
                                             } else {
-                                                this.setState({userDetails:loginData, redirect: true});
+                                                this.setState({userDetails: loginData}, () => this.props.history.push('/main'));
                                             }
                                         });
                                     });
@@ -66,7 +67,6 @@ export default class login extends Component {
                                 Login with google
                             </button>  
                             <NavLink className="registerlink" to="/register">Not yet registered? Register now</NavLink>
-                            {this.state.redirect ? <Redirect to="/main" /> : null}
                         </div>
                     </div>
                 </div>
