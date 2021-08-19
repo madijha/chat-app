@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom';
 import {getAllChats, checkEmail, inviteFriend, getSingleChats} from '../components/main';
 import '../css/main.css';
 
+var id = '';
 export default class main extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +59,7 @@ export default class main extends Component {
                                     <a className="dropdown-item" href="#">Create group</a>
                                     <a className="dropdown-item" onClick={() => {
                                         localStorage.removeItem('myDiId');
-                                        this.setState({redirect: true}, () => clearInterval(this.id));
+                                        this.setState({redirect: true}, () => clearInterval(id));
                                     }}>
                                         Logout
                                     </a>
@@ -119,7 +120,19 @@ export default class main extends Component {
                             {this.state.finalChats.map((chat, index) => {
                                 if(chat.message !== null || chat.senderName !== null || chat.receiverName !== null) {
                                     if(chat.receiverUserId !== this.state.userDetails.user_id) {
-                                        return(<div key={index} className="list" onClick={() => getSingleChats(chat.senderUserId, chat.receiverUserId).then((singleMesssage) => this.setState({singleChat: singleMesssage.data, showSingleChat: true}))}>
+                                        return(<div 
+                                                key={index} 
+                                                className="list" 
+                                                onClick={() => {
+                                                    if(id !== '') {
+                                                        clearInterval(id);
+                                                    }
+                                                    id = setInterval(() => {
+                                                            getSingleChats(chat.senderUserId, chat.receiverUserId)
+                                                            .then((singleMesssage) => this.setState({singleChat: singleMesssage.data, showSingleChat: true}, () => console.log(this.state.singleChat)));
+                                                    }, 3000);
+                                                }}  
+                                                >
                                             <div id="user">
                                                 <span>{chat.receiverName}</span>
                                                 {this.state.newmsg ? 
@@ -129,7 +142,18 @@ export default class main extends Component {
                                             <div id="msgextract">{chat.message}</div>
                                         </div>)
                                     } else if(chat.senderUserId !== this.state.userDetails.user_id) {
-                                        return (<div key={index} className="list" onClick={() => getSingleChats(chat.senderUserId, chat.receiverUserId).then((singleMesssage) => this.setState({singleChat: singleMesssage.data, showSingleChat: true}))}>
+                                        return (<div 
+                                                    key={index} className="list" 
+                                                    onClick={() => {
+                                                        if(id !== '') {
+                                                            clearInterval(id);
+                                                        }
+                                                        id = setInterval(() => {
+                                                                getSingleChats(chat.senderUserId, chat.receiverUserId)
+                                                                .then((singleMesssage) => this.setState({singleChat: singleMesssage.data, showSingleChat: true}, () => console.log(this.state.singleChat)));
+                                                        }, 3000);
+                                                    }}
+                                                >
                                             <div id="user">
                                                 <span>{chat.senderName}</span>
                                                 {this.state.newmsg ? 
@@ -146,13 +170,26 @@ export default class main extends Component {
                             <div id="messageView">
                                 <div id="messages"> 
                                     {this.state.singleChat.map((chat, index) => {
-                                        return <div key={index}>{chat.message}</div>
+                                        return (
+                                            <div key={index}>{chat.message}</div>
+                                        )
                                     })}
                                 </div>
                                 <div id="chatbox">
                                     <div className="elements">
                                         <input type="text" onChange={(e) => this.setState({message: e.target.value})} placeholder="your message" />
-                                        <span onClick={() => alert(this.state.message)}>
+                                        <span onClick={() => {
+                                            const chatDetails = {
+                                                message: `${this.state.message}`,
+                                                senderId: `${this.state.singleChat[0].senderUserId}`,
+                                                senderName: `${this.state.singleChat[0].senderName}`,
+                                                receiverId: `${this.state.singleChat[0].receiverUserId}`,
+                                                receiverName: `${this.state.singleChat[0].receiverName}`,
+                                            }
+                                            inviteFriend(chatDetails).then((chatData) => {
+                                                console.log(chatData);
+                                            });
+                                        }}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#fe4a49" className="bi bi-cursor-fill send" viewBox="0 0 16 16">
                                                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/>
                                             </svg>

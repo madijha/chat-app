@@ -5,7 +5,8 @@
 .carousel-caption h3{
     color: #000;
     font-family: 'Lobster Two', cursive;
-    font-size: xx-large;
+    font-size: 100px;
+    color: #fe4a49;
 }
 .carousel-caption p{
     color: #000;
@@ -25,16 +26,18 @@
     justify-content: center;
 }
 .pdesc div{
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(122, 122, 122);
     margin: 7px;
     padding: 10px;
     width: 20vw;
+    border-radius: 10px;
+    box-shadow: 3px 5px 2px rgb(224, 224, 224);
 }
 .pdesc h3{
     color: #fe4a49;
 }
 .pdesc p{
-    color: #000;
+    color: #fff;
 }
 footer{
     background-color: #abddd1;
@@ -43,4 +46,5 @@ footer{
 footer>p{
     text-align: center;
     color: #fff;
+    margin-top: 20px;
 }
